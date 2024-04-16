@@ -98,11 +98,6 @@ def main():
         #st.title("LLM Chatapp using LangChain")
         st.subheader("Your Documents")
         pdf_docs = st.file_uploader("Upload the PDF Files here and Click on Process", accept_multiple_files=True)
-        st.markdown('''
-        - [Streamlit](https://streamlit.io/)
-        - [LangChain](https://python.langchain.com/)
-        - [OpenAI](https://platform.openai.com/docs/models) LLM Model
-        ''')
         if st.button('Process'):
             with st.spinner("Processing"):
                 #Extract Text from PDF
