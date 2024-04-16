@@ -15,8 +15,7 @@ from datetime                import datetime
 embedding_model_name = os.environ.get('EMBEDDING_MODEL_NAME')
 
 st.set_page_config(
-        page_title="Chat with Multiple PDFs",
-        page_icon=":books:"
+        page_title="Chat with Multiple PDFs"
     )
 
 st.title("Chat with Multiple PDFs" )
