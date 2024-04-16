@@ -10,17 +10,16 @@ from langchain.memory        import ConversationBufferMemory
 from langchain.chains        import ConversationalRetrievalChain
 from langchain.llms          import HuggingFaceHub
 from langchain.chat_models   import ChatOpenAI
-from htmlTemplates           import css, bot_template, user_template
 from datetime                import datetime
 
 embedding_model_name = os.environ.get('EMBEDDING_MODEL_NAME')
 
 st.set_page_config(
-        page_title="Chat with PDF",
-        page_icon="🔎"
+        page_title="Chat with Multiple PDFs",
+        page_icon=":books:"
     )
 
-st.title("Chat with PDF 🔎" )
+st.title("Chat with Multiple PDFs :books:" )
 
 # Função para obter a consulta do usuário e substituir a entrada de texto
 def get_query():
@@ -60,7 +59,7 @@ def get_vector_store(text_chunks):
 def get_conversation_chain(vectorstore):
     #llm = ChatOpenAI()
     #llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.5, max_tokens=1000)
-    llm = ChatOpenAI(model_name="gpt-3.5-turbo-0125", temperature=0, max_tokens=1000)
+    llm = ChatOpenAI(model_name="gpt-3.5-turbo-0125", temperature=0.2, max_tokens=1000)
     #llm = HuggingFaceHub(repo_id="google/flan-t5-xxl", model_kwargs={"temperature":0.5, "max_length":512})
     memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True)
     conversation_chain = ConversationalRetrievalChain.from_llm(llm=llm,retriever=vectorstore.as_retriever(),memory=memory)
@@ -80,15 +79,6 @@ def handle_user_input(user_question):
             else:
                 # st.write(message)
                 st.write(bot_template.replace("{{MSG}}", message.content), unsafe_allow_html=True)
-
-def get_pdf_files_from_directory(directory):
-    pdf_files = []
-    for root, dirs, files in os.walk(directory):
-        for file in files:
-            if file.endswith(".pdf"):
-                pdf_files.append(os.path.join(root, file))
-    return pdf_files
-
 def main():
     load_dotenv()
     st.write(css, unsafe_allow_html=True)
@@ -107,9 +97,8 @@ def main():
     with st.sidebar:
         #st.header("Chat with PDF 💬")
         #st.title("LLM Chatapp using LangChain")
-        #st.subheader("Your Documents")
-        directory_path = ("./raw")
-        #pdf_docs = st.file_uploader("Upload the PDF Files here and Click on Process", accept_multiple_files=True)
+        st.subheader("Your Documents")
+        pdf_docs = st.file_uploader("Upload the PDF Files here and Click on Process", accept_multiple_files=True)
         st.markdown('''
         - [Streamlit](https://streamlit.io/)
         - [LangChain](https://python.langchain.com/)
@@ -117,7 +106,6 @@ def main():
         ''')
         if st.button('Process'):
             with st.spinner("Processing"):
-                pdf_docs = get_pdf_files_from_directory(directory_path)
                 #Extract Text from PDF
                 raw_text = get_pdf_text(pdf_docs)
                 #Split the Text into Chunks
@@ -138,5 +126,5 @@ def main():
                     conversation_content += f"answer: {answer}\n\n"
                 save_conversation_history(conversation_content)
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     main()
