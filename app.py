@@ -81,7 +81,6 @@ def handle_user_input(user_question):
                 st.write(bot_template.replace("{{MSG}}", message.content), unsafe_allow_html=True)
 def main():
     load_dotenv()
-    st.write(css, unsafe_allow_html=True)
     if "conversation" not in st.session_state:
         st.session_state.conversation=None
     if "chat_history" not in st.session_state:
