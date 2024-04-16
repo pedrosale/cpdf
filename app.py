@@ -19,7 +19,7 @@ st.set_page_config(
         page_icon=":books:"
     )
 
-st.title("Chat with Multiple PDFs :books:" )
+st.title("Chat with Multiple PDFs" )
 
 # Função para obter a consulta do usuário e substituir a entrada de texto
 def get_query():
