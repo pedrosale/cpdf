@@ -18,7 +18,7 @@ st.set_page_config(
         page_title="Chat with Multiple PDFs"
     )
 
-st.title("Chat with Multiple PDFs" )
+st.title("Chat with Multiple PDFs - Desenolvido por Pedro Sampaio Amorim" )
 
 # Função para obter a consulta do usuário e substituir a entrada de texto
 def get_query():
